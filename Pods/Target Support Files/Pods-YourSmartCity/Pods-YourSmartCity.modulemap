@@ -1,0 +1,6 @@
+framework module Pods_YourSmartCity {
+  umbrella header "Pods-YourSmartCity-umbrella.h"
+
+  export *
+  module * { export * }
+}
