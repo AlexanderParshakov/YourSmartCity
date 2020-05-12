@@ -47,6 +47,40 @@ final class AlertService {
         }
     }
     
+    static func showScanningInvalid() {
+            // Generate top floating entry and set some properties
+        var attributes = EKAttributes.topFloat
+            attributes.entryBackground = .gradient(gradient: .init(
+                colors: [EKColor(Constants.Colors.UIGradientSets.deepSpace[0]), EKColor(Constants.Colors.UIGradientSets.deepSpace[1])],
+                startPoint: .zero,
+                endPoint: CGPoint(x: 1, y: 1)))
+            attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.3), scale: .init(from: 1, to: 0.7, duration: 0.7)))
+    //        attributes.entranceAnimation = .init(
+    //            translate: .init(duration: 0.5, anchorPosition: .top, spring: .init(damping: 1, initialVelocity: 0)),
+    //            scale: .init(from: 0.8, to: 1, duration: 0.5),
+    //            fade: .init(from: 0.8, to: 1, duration: 0.3))
+            attributes.shadow = .active(with: .init(color: .black, opacity: 0.5, radius: 10, offset: .zero))
+            attributes.statusBar = .dark
+            attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .jolt)
+        attributes.hapticFeedbackType = .warning
+            attributes.screenBackground = .visualEffect(style: .standard)
+            attributes.displayDuration = 2
+            
+            
+            let title = EKProperty.LabelContent(text: "QR-код недействителен", style: .init(font: .boldSystemFont(ofSize: 22), color: .white))
+            let description = EKProperty.LabelContent(text: "", style: .init(font: .systemFont(ofSize: 17), color: .standardBackground))
+            
+            let origImage = UIImage(named: "error")
+            let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+            let image = EKProperty.ImageContent(image: tintedImage!, size: CGSize(width: 40, height: 40), tint: .init(light: .white, dark: .white))
+            let simpleMessage = EKSimpleMessage(image: image, title: title, description: description)
+            let notificationMessage = EKNotificationMessage(simpleMessage: simpleMessage)
+            
+            let contentView = EKNotificationMessageView(with: notificationMessage)
+            SwiftEntryKit.display(entry: contentView, using: attributes)
+        }
+    
+    
     static func showChangeThemeSuccess() {
         // Generate top floating entry and set some properties
         var attributes = EKAttributes.toast

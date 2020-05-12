@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoodsViewController: UIViewController {
+class RestaurantsViewController: UIViewController {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {

@@ -28,12 +28,14 @@ class ScanViewController: UIViewController {
     var video = AVCaptureVideoPreviewLayer()
     let session = AVCaptureSession()
     
+    var building = Building()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.setHidesBackButton(true, animated: true);
+        self.navigationController?.becomeTransparent()
         
         targetOutline.alpha = 0
         cancelButton.alpha = 0
@@ -62,6 +64,14 @@ class ScanViewController: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "fromScanToBuilding" {
+            let buildingVC = segue.destination as! BuildingViewController
+            
+            buildingVC.buildingId = self.building.id
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -77,7 +87,7 @@ class ScanViewController: UIViewController {
             self.cancelButton.alpha = 0
         }) { _ in
             Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (_) in
-                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
             })
         }
     }
@@ -87,6 +97,7 @@ class ScanViewController: UIViewController {
 extension ScanViewController {
     private func setupTargetOutline() {
         targetOutline.layer.cornerRadius = 20
+        targetOutline.alpha = 1
         targetOutline.addGradientBorder(borderWidth: 10)
         
         UIView.animate(withDuration: 0.25) {
@@ -141,28 +152,30 @@ extension ScanViewController: AVCaptureMetadataOutputObjectsDelegate {
         guard object.type == .qr else { return }
         session.stopRunning()
         
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.warning)
-
-        UIView.animate(withDuration: 0.25, animations: {
-            self.targetOutline.backgroundColor = .systemBackground
-            self.loadingView.startVioletLoadingAnimation()
-            self.statusLabel.isHidden = false
-            self.video.opacity = 0.5
-        }) { _ in
-            Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false, block: { (_) in
-                if (UIApplication.topViewController() as? ScanViewController) != nil {
-                    AlertService.showQRSuccess(viewController: self, alertTitle: object.stringValue ?? "Информация найдена")
-                }
-                UIView.animate(withDuration: 0.25) {
-                    self.targetOutline.backgroundColor = .clear
-                    self.loadingView.isHidden = true
-                    self.statusLabel.isHidden = true
-                    self.targetOutline.alpha = 0
-                }
-            })
-        }
+//        let generator = UIImpactFeedbackGenerator()
+//        generator.impactOccurred()
         
+        UIView.animate(withDuration: 0.25, animations: {
+            self.toggleLoading(withState: true)
+        }) { _ in
+            guard let idFromQR = Int(object.stringValue ?? "") else { self.reactToInvalidQR(); return }
+            NetworkService.Scanning.getBuilding(byId: idFromQR) { [weak self] (result) in
+                switch result {
+                case .success(let building):
+                    self?.targetOutline.alpha = 0
+                    if (UIApplication.topViewController() as? ScanViewController) != nil {
+                        AlertService.showQRSuccess(viewController: self!, alertTitle: building.name ?? building.fullAddress)
+                    }
+                    self?.building = building
+                    
+                    UIView.animate(withDuration: 0.25) {
+                        self?.toggleLoading(withState: false)
+                    }
+                case .failure(let error):
+                    print("Error: ", error)
+                }
+            }
+        }
     }
 }
 
@@ -177,6 +190,31 @@ extension ScanViewController: FromSuccessAlertToScanViewDelegate {
     func didProceedToViewData() {
 //        let orgListViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrganizationListNavigationController") as! UINavigationController
 //        self.present(orgListViewController, animated: true, completion: nil)
-        self.performSegue(withIdentifier: "fromScanToOrg", sender: self)
+        self.performSegue(withIdentifier: "fromScanToBuilding", sender: self)
+    }
+}
+
+
+// MARK: - Private Methods
+extension ScanViewController {
+    
+    private func toggleLoading(withState state: Bool) {
+        if state == true {
+            self.targetOutline.backgroundColor = .systemBackground
+            self.loadingView.startVioletLoadingAnimation()
+            self.statusLabel.isHidden = false
+            self.video.opacity = 0.5
+        } else {
+            self.targetOutline.backgroundColor = .clear
+            self.loadingView.isHidden = true
+            self.statusLabel.isHidden = true
+            self.video.opacity = 1
+        }
+    }
+    
+    private func reactToInvalidQR() {
+        AlertService.showScanningInvalid()
+        toggleLoading(withState: false)
+        session.startRunning()
     }
 }

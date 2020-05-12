@@ -20,14 +20,13 @@ enum ArtEventType: String, Codable {
 class ArtEvent: Decodable {
     var id: Int
     var title: String
-    var description: String
+    var description: String?
     var pictureData: Data?
     var showings: [Showing]?
     
     init() {
         self.id = 0
         self.title = ""
-        self.description = ""
         self.pictureData = Data()
         self.showings = []
     }

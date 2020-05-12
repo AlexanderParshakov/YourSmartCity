@@ -23,4 +23,12 @@ extension UIView {
             self.layer.shadowOpacity = 0.35
         }
     }
+    
+    func addBottomShadow(y: CGFloat) {
+        self.layoutIfNeeded()
+        let contactRect = CGRect(x: 0, y: self.frame.height + y, width: self.bounds.width + 30, height: 6)
+        self.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
+        self.layer.shadowRadius = 7
+        self.layer.shadowOpacity = 0.7
+    }
 }

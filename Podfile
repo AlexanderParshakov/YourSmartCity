@@ -10,3 +10,8 @@ target 'YourSmartCity' do
   pod 'Alamofire'
   pod 'SnapKit', '~> 5.0.0'
 end
+
+target 'YourSmartCityUnitTests' do
+  inherit! :search_paths
+
+end 

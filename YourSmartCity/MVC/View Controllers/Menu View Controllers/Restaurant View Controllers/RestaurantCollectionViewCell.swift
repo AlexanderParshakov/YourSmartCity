@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoodCollectionViewCell: UICollectionViewCell {
+class RestaurantCollectionViewCell: UICollectionViewCell {
     // MARK: - Outlets
     @IBOutlet weak var thumbnailImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -48,8 +48,8 @@ class FoodCollectionViewCell: UICollectionViewCell {
     
     func set(withRestaurant restaurant: Restaurant) {
         self.restaurant = restaurant
-        thumbnailImage.image = restaurant.picture
-        titleLabel.text = restaurant.title
+        thumbnailImage.image = UIImage(data: restaurant.pictureData ?? Data())
+        titleLabel.text = restaurant.name
     }
     
 }

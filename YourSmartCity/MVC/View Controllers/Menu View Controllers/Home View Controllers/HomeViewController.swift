@@ -53,8 +53,7 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: self.view.frame.width, height: contentView.frame.size.height + 20)
         
         movieLoader.startVioletLoadingAnimation()
-        
-        self.loadMovies()
+//        self.loadMovies()
         
         self.restaurantList = Repository.getThumbnailRestaurants()
         restaurantCollectionView.reloadData()
@@ -131,7 +130,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         else if collectionView == restaurantCollectionView {
             let currentRestaurant = restaurantList[indexPath.row]
             
-            let cell = restaurantCollectionView.dequeueReusableCell(withReuseIdentifier: "FoodCollectionViewCell", for: indexPath) as! FoodCollectionViewCell
+            let cell = restaurantCollectionView.dequeueReusableCell(withReuseIdentifier: "FoodCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell
             cell.set(withRestaurant: currentRestaurant)
             return cell
         }
@@ -244,7 +243,7 @@ extension HomeViewController {
                 let coverCell = cell as! MovieCollectionViewCell
                 coverCell.thumbnailImage.alpha = changeSizeScaleToAlphaScale(scale)
             } else if collectionView == restaurantCollectionView {
-                let coverCell = cell as! FoodCollectionViewCell
+                let coverCell = cell as! RestaurantCollectionViewCell
                 coverCell.thumbnailImage.alpha = changeSizeScaleToAlphaScale(scale)
             }
         }
@@ -255,45 +254,53 @@ extension HomeViewController {
 // MARK: - Loading Data
 extension HomeViewController {
     private func loadMovies() {
-        self.movieList = NetworkManager.getThumbnailMovies()
-        self.movieCollectionView.reloadData()
-        self.view.layoutIfNeeded()
-        self.movieCollectionHeightConstraint.constant = 240
-        UIView.animate(withDuration: 0.4, animations: {
-            self.movieLoader.alpha = 0
-            self.view.layoutIfNeeded()
-            self.movieCollectionView.scrollToCenter(view: self.view)
-        }) { _ in
-            UIView.animate(withDuration: 0.4) {
-                self.movieCollectionView.alpha = 1
+//        self.movieList = NetworkService.getThumbnailMovies()
+//        self.movieCollectionView.reloadData()
+//        self.view.layoutIfNeeded()
+//        self.movieCollectionHeightConstraint.constant = 250
+//        UIView.animate(withDuration: 0.4, animations: {
+//            self.movieLoader.alpha = 0
+//            self.view.layoutIfNeeded()
+//            self.movieCollectionView.scrollToCenter(view: self.view)
+//            let visibleItems: NSArray = (self.movieCollectionView.indexPathsForVisibleItems) as NSArray
+//            let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
+//            let firstItem: IndexPath = IndexPath(item: currentItem.item, section: 0)
+//            let zeroItem: IndexPath = IndexPath(item: currentItem.item - 1, section: 0)
+//
+//            self.movieCollectionView.scrollToItem(at: firstItem, at: .centeredHorizontally, animated: false)
+//            self.movieCollectionView.layoutIfNeeded()
+//            self.movieCollectionView.scrollToItem(at: zeroItem, at: .centeredHorizontally, animated: false)
+//        }) { _ in
+//            UIView.animate(withDuration: 0.4) {
+//                self.movieCollectionView.alpha = 1
+//            }
+//        }
+        
+        
+        
+        Repository.getMovies(completion: { [weak self] (result) in
+            switch result {
+            case .success(let movies):
+                self?.movieList = movies
+            case .failure(let error):
+                print("Error: ", error)
+                self?.movieList = NetworkService.getThumbnailMovies()
             }
-        }
-        
-        
-        
-//        Repository.getMovies(completion: { [weak self] (result) in
-//            switch result {
-//            case .success(let movies):
-//                self?.movieList = movies
-//            case .failure(let error):
-//                print("Error: ", error)
-//                self?.movieList = NetworkManager.getThumbnailMovies()
-//            }
-//
-//            self?.movieCollectionView.reloadData()
-//            self?.view.layoutIfNeeded()
-//
-//            self?.movieCollectionHeightConstraint.constant = 240
-//            UIView.animate(withDuration: 0.4, animations: {
-//                self?.movieLoader.alpha = 0
-//                self?.view.layoutIfNeeded()
-//            }) { _ in
-//                UIView.animate(withDuration: 0.4) {
-//                    self?.movieCollectionView.alpha = 1
-//                }
-//            }
-//
-//            self?.movieCollectionView.scrollToCenter(view: (self?.view)!)
-//        })
+
+            self?.movieCollectionView.reloadData()
+            self?.view.layoutIfNeeded()
+
+            self?.movieCollectionHeightConstraint.constant = 260
+            UIView.animate(withDuration: 0.4, animations: {
+                self?.movieLoader.alpha = 0
+                self?.view.layoutIfNeeded()
+            }) { _ in
+                UIView.animate(withDuration: 0.4) {
+                    self?.movieCollectionView.alpha = 1
+                }
+            }
+
+            self?.movieCollectionView.scrollToCenter(view: (self?.view)!)
+        })
     }
 }

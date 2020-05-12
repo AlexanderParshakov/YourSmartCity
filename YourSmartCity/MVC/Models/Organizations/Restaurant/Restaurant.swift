@@ -10,10 +10,21 @@ import Foundation
 
 class Restaurant: Organization {
     
+    var averageCheck: Int
+    
     override init() {
+        self.averageCheck = 0
         super.init()
-        
-        self.type = .restaurant
+    }
+    
+    required init(from decoder: Decoder) throws {
+        self.averageCheck = 0
+        super.init()
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case name = "name"
     }
     
 }

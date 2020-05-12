@@ -38,10 +38,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.borderColor = UIColor.clear.cgColor
         self.contentView.layer.masksToBounds = true;
 
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 8, height: 8)
-        self.layer.shadowRadius = 5.0
-        self.layer.shadowOpacity = 0.6
+        self.addBottomShadow(y: -5)
         self.layer.masksToBounds = false;
         
         layoutIfNeeded()

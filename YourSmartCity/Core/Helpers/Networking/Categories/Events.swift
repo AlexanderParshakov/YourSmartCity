@@ -9,11 +9,11 @@
 import Foundation
 import Alamofire
 
-extension NetworkManager.Events.Movies {
-    static let moviesURL = "https://smartcitywebservice.azurewebsites.net/api/movies"
+extension NetworkService.Events.Movies {
+    private static let moviesURL = NetworkService.baseURL + "movies"
     
     static func getAll(completion: @escaping (Result<Array<Movie>, Error>) -> Void) {
-        AF.request(moviesURL, method: .get).responseDecodable { (response: DataResponse<Array<Movie>, AFError>) in
+        AF.request(NetworkService.Events.Movies.moviesURL, method: .get).responseDecodable { (response: DataResponse<Array<Movie>, AFError>) in
             do {
                 let movies = try JSONDecoder().decode(Array<Movie>.self, from: response.data ?? Data())
                 completion(.success(movies))

@@ -16,6 +16,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var descriptionSeparator: UIView!
     @IBOutlet weak var descriptionWrapperView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var descriptionArrow: UIImageView!
     @IBOutlet weak var cinemaTitleWrapperView: UIView!
     
     // MARK: - Constraints
@@ -28,6 +29,8 @@ class MovieDetailViewController: UIViewController {
     var titleWrapperView = UIView()
     var titleLabel = UILabel()
     var backButton = UIButton()
+    
+    var descriptionWrapperInitialHeight: CGFloat = 0
     
     
     // MARK: - Variables
@@ -70,7 +73,7 @@ class MovieDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
+        descriptionWrapperInitialHeight = descriptionViewHeightConstraint.constant
     }
     
     @IBAction func onHideButtonTapped(_ sender: Any) {
@@ -180,13 +183,17 @@ extension MovieDetailViewController {
     
     @objc
     private func switchDescriptionViewVisibility() {
+        
         let size = CGSize(width: descriptionLabel.bounds.width, height: .infinity)
         let estimatedSize = descriptionLabel.sizeThatFits(size)
+        let degrees: CGFloat = descriptionViewHeightConstraint.constant == descriptionWrapperInitialHeight ? 180 : -360
         
-        descriptionViewHeightConstraint.constant = descriptionViewHeightConstraint.constant == 140 ? estimatedSize.height + 85 : 140
+        descriptionViewHeightConstraint.constant = descriptionViewHeightConstraint.constant == descriptionWrapperInitialHeight ? estimatedSize.height + 95 : descriptionWrapperInitialHeight
 
-        UIView.animate(withDuration: 0.55, animations: {
+        
+        UIView.animate(withDuration: 0.35, animations: {
             self.view.layoutIfNeeded()
+            self.descriptionArrow.transform = CGAffineTransform(rotationAngle: degrees*CGFloat.pi/180)
         }) { _ in
             self.scrollView.updateContentView()
         }

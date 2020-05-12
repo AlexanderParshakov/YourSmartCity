@@ -16,6 +16,20 @@ class ArtOrganization: Organization {
         
         super.init()
     }
+    
+    required init(from decoder: Decoder) throws {
+        self.events = []
+        
+        super.init()
+    }
+}
+
+final class Cinema: ArtOrganization {
+    
+}
+
+final class Museum: ArtOrganization {
+    
 }
 
 

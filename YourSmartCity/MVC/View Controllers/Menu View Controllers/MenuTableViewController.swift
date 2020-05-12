@@ -103,7 +103,7 @@ class MenuTableViewController: UITableViewController {
             }
             // Foods
             else if indexPath.row == 2 {
-                if (UIApplication.topViewController() as? FoodsViewController) != nil {
+                if (UIApplication.topViewController() as? RestaurantsViewController) != nil {
                     self.revealViewController()?.revealToggle(self)
                 } else {
                     let entViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FoodsNavigationController") as! UINavigationController

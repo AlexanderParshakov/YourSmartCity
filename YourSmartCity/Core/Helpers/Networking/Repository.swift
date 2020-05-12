@@ -12,16 +12,16 @@ class Repository {
     private init() {}
     
     static func getMovies(completion: @escaping(Result<Array<Movie>, Error>) -> Void) {
-        NetworkManager.Events.Movies.getAll { (result) in
+        NetworkService.Events.Movies.getAll { (result) in
             completion(result)
         }
     }
     
     static func getThumbnailRestaurants() -> [Restaurant] {
-        return NetworkManager.getThumbnailRestaurants()
+        return NetworkService.getThumbnailRestaurants()
     }
     
     static func getSensors() -> [Sensor] {
-        return NetworkManager.getSensors()
+        return NetworkService.getSensors()
     }
 }

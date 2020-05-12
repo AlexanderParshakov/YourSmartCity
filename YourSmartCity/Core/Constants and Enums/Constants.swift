@@ -20,6 +20,7 @@ struct Constants {
             static let amin = Constants.Colors.UIGradientSets.amin.map { return $0.cgColor }
             static let stellar = Constants.Colors.UIGradientSets.stellar.map { return $0.cgColor }
             static let rainbowBlue = Constants.Colors.UIGradientSets.rainbowBlue.map { return $0.cgColor }
+            static let deepSpace = Constants.Colors.UIGradientSets.deepSpace.map { return $0.cgColor }
         }
         struct UIGradientSets {
             private init() {}
@@ -27,6 +28,7 @@ struct Constants {
             static let amin = [hexStringToUIColor(hex: "#4A00E0"), hexStringToUIColor(hex: "#8E2DE2")]
             static let stellar = [hexStringToUIColor(hex: "#7474BF"), hexStringToUIColor(hex: "#348AC7")]
             static let rainbowBlue = [hexStringToUIColor(hex: "#00F260"), hexStringToUIColor(hex: "#0575E6")]
+            static let deepSpace = [hexStringToUIColor(hex: "#000000"), hexStringToUIColor(hex: "#434343")]
         }
         
         struct Statics {
