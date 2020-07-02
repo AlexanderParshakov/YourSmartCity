@@ -172,6 +172,7 @@ extension ScanViewController: AVCaptureMetadataOutputObjectsDelegate {
                         self?.toggleLoading(withState: false)
                     }
                 case .failure(let error):
+                    AlertService.showScanningInvalid(shortText: "Здание с таким идентификатором не найдено")
                     print("Error: ", error)
                 }
             }
@@ -213,7 +214,7 @@ extension ScanViewController {
     }
     
     private func reactToInvalidQR() {
-        AlertService.showScanningInvalid()
+        AlertService.showScanningInvalid(shortText: "Объект с таким QR-кодом не найден")
         toggleLoading(withState: false)
         session.startRunning()
     }

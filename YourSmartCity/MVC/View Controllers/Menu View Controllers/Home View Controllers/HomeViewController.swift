@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: self.view.frame.width, height: contentView.frame.size.height + 20)
         
         movieLoader.startVioletLoadingAnimation()
-//        self.loadMovies()
+        self.loadMovies()
         
         self.restaurantList = Repository.getThumbnailRestaurants()
         restaurantCollectionView.reloadData()

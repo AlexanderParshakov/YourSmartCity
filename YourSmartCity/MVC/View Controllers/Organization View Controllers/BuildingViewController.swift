@@ -38,18 +38,18 @@ class BuildingViewController: UIViewController {
         
         organizationLoader.startVioletLoadingAnimation()
         
-        NetworkService.Scanning.getBuilding(byId: self.buildingId) { (result) in
+        NetworkService.Scanning.getBuilding(byId: self.buildingId) { [weak self] (result) in
             switch result {
             case .success(let building):
-                self.building = building
-                self.addressLabel.text = building.fullAddress
+                self?.building = building
+                self?.addressLabel.text = building.fullAddress
                 
-                self.organizationList.append(contentsOf: building.cinemas ?? [])
-                self.organizationList.append(contentsOf: building.museums ?? [])
-                self.organizationList.append(contentsOf: building.restaurants ?? [])
+                self?.organizationList.append(contentsOf: building.cinemas ?? [])
+                self?.organizationList.append(contentsOf: building.museums ?? [])
+                self?.organizationList.append(contentsOf: building.restaurants ?? [])
                 
-                self.organizationLoader.isHidden = true
-                self.organizationTableView.reloadData()
+                self?.organizationLoader.isHidden = true
+                self?.organizationTableView.reloadData()
             case .failure(let error):
                 print(error)
             }
