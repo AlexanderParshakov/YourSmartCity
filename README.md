@@ -14,11 +14,11 @@ A studying project for an app that shows different categories of a smart city.
 ## Launching the app and checking out movie information
 * On launch, the app requests data from the server, signalling of loading with the loader. 
 * As the data arrives, the space expands, and thumbnails of movies reveal in an appealing manner.
+<img src="Images/Home GIF.gif" width= 400> 
 
 ## Menu and Profile
 * User can switch to a different category of Smart City (to be implemented).
 * User can see information of his profile and sensors accounted for him.
-<img src="Images/Home GIF.gif" width= 400> 
 
 Slide-out menu             |  Profile |  Sensors 
 :-------------------------:|:-------------------------:|:-------------------------:
