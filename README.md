@@ -15,6 +15,14 @@ A studying project for an app that shows different categories of a smart city.
 * On launch, the app requests data from the server, signalling of loading with the loader. 
 * As the data arrives, the space expands, and thumbnails of movies reveal in an appealing manner.
 
+## Menu and Profile
+* User can switch to a different category of Smart City (to be implemented).
+* User can see information of his profile and sensors accounted for him.
+
+Slide-out menu             |  Profile |  Sensors 
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="Images/Menu.png" width= 300>   |  <img src="Images/Profile.png" width= 300>  |  <img src="Images/Sensors.gif" width= 300> 
+
 <img src="Images/Home GIF.gif" width= 400> 
 
 ## Scanning a QR-code to explore a building
