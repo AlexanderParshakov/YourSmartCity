@@ -77,7 +77,7 @@ class MenuTableViewController: UITableViewController {
                 if (UIApplication.topViewController() as? ProfileViewController) != nil {
                     self.revealViewController()?.revealToggle(self)
                 } else {
-                    let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
+                    let homeViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "ProfileNavigationController") as! UINavigationController
                     self.revealViewController()?.pushFrontViewController(homeViewController, animated: true)
                 }
             }
@@ -132,7 +132,7 @@ class MenuTableViewController: UITableViewController {
 // MARK: - Helper Methods
 extension MenuTableViewController {
     private func highlightRow(withIndex rowIndex: Int) {
-        // painting images
+        // painting image
         for (index, imageView) in imageViews.enumerated() {
             if index == rowIndex {
                 imageView.changeColor(to: self.accentColor)
@@ -140,7 +140,7 @@ extension MenuTableViewController {
                 imageView.changeColor(to: .label)
             }
         }
-        // painting labels
+        // painting label
         for (index, label) in labels.enumerated() {
             if index == rowIndex {
                 label.textColor = self.accentColor
