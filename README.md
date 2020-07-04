@@ -21,7 +21,7 @@ A studying project for an app that shows different categories of a smart city.
 
 Slide-out menu             |  Profile |  Sensors 
 :-------------------------:|:-------------------------:|:-------------------------:
-<img src="Images/Menu.png" width= 300>   |  <img src="Images/Profile.png" width= 300>  |  <img src="Images/Sensors.gif" width= 300> 
+<img src="Images/Menu.png" width= 300>   |  <img src="Images/Profile.png" width= 300>  |  <img src="Images/Sensors.png" width= 300> 
 
 <img src="Images/Home GIF.gif" width= 400> 
 
